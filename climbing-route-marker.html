@@ -1571,5 +1571,32 @@
 
         init();
     </script>
+    <button id="askAI"
+  style="position:fixed;right:16px;bottom:16px;z-index:9999;
+         padding:10px 14px;border-radius:12px;border:none;
+         background:#4f46e5;color:#fff;cursor:pointer;">
+  Ask AI
+</button>
+
+<script>
+  const API_BASE = "https://climbing-guide-api.onrender.com";
+
+  document.getElementById("askAI").onclick = async () => {
+    const q = prompt("Ask the AI about this climbing route:");
+    if (!q) return;
+
+    try {
+      const r = await fetch(`${API_BASE}/api/chat`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ message: q })
+      });
+      const data = await r.json();
+      alert(data.reply || JSON.stringify(data));
+    } catch (e) {
+      alert("Network error: " + e);
+    }
+  };
+</script>
 </body>
 </html>
